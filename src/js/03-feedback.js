@@ -4,6 +4,7 @@ const form = document.querySelector('.feedback-form');
 const email = document.querySelector('input[name="email"]');
 const message = document.querySelector('textarea[name="message"]');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
+const fields = form.querySelectorAll('.field');
 
 form.addEventListener(
   'input',
@@ -18,6 +19,24 @@ form.addEventListener('submit', e => {
   console.log({ email: email.value, message: message.value });
   form.reset();
   localStorage.removeItem(LOCALSTORAGE_KEY);
+  
+
+  for (let i = 0; i < fields.length; i++) {
+  if (!fields[i].value) {
+    console.log('field is blank', fields[i])
+    let error = document.createElement('div')
+    error.className='error'
+    error.style.color = 'red'
+    error.innerHTML = 'Cannot be blank'
+    form[i].parentElement.insertBefore(error, fields[i])
+  }
+    
+  const errors = form.querySelectorAll('.error')
+
+  for (let i = 0; i < errors.length; i++) {
+    errors[i].remove()
+  }
+}
 }); 
  
 const load = key => {
